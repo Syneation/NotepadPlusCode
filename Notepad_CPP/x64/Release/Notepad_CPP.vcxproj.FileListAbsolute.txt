@@ -1,0 +1,6 @@
+D:\NotepadCpp\Notepad_CPP\Notepad_CPP\x64\Release\Notepad_CPP.vcxproj.AssemblyReference.cache
+D:\NotepadCpp\Notepad_CPP\Notepad_CPP\x64\Release\NotepadCPP.MyForm.resources
+D:\NotepadCpp\Notepad_CPP\Notepad_CPP\x64\Release\NotepadCPP.MyForm1.resources
+D:\NotepadCpp\Notepad_CPP\Notepad_CPP\x64\Release\NotepadCPP.MyForm2.resources
+D:\NotepadCpp\Notepad_CPP\Notepad_CPP\x64\Release\NotepadCPP.MyForm3.resources
+D:\NotepadCpp\Notepad_CPP\Notepad_CPP\x64\Release\Notepad_CPP.vcxproj.GenerateResource.cache

@@ -1,0 +1,31 @@
+﻿  MyForm.cpp
+D:\NotepadCpp\Notepad_CPP\Notepad_CPP\MyForm.h(7,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
+  (компиляция исходного файла "MyForm.cpp")
+  
+D:\NotepadCpp\Notepad_CPP\Notepad_CPP\MyForm.h(8,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
+  (компиляция исходного файла "MyForm.cpp")
+  
+D:\NotepadCpp\Notepad_CPP\Notepad_CPP\MyForm.h(9,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
+  (компиляция исходного файла "MyForm.cpp")
+  
+D:\NotepadCpp\Notepad_CPP\Notepad_CPP\MyForm.h(10,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
+  (компиляция исходного файла "MyForm.cpp")
+  
+  MyForm1.cpp
+  MyForm2.cpp
+  Source.cpp
+D:\NotepadCpp\Notepad_CPP\Notepad_CPP\MyForm.h(7,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
+  (компиляция исходного файла "Source.cpp")
+  
+D:\NotepadCpp\Notepad_CPP\Notepad_CPP\MyForm.h(8,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
+  (компиляция исходного файла "Source.cpp")
+  
+D:\NotepadCpp\Notepad_CPP\Notepad_CPP\MyForm.h(9,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
+  (компиляция исходного файла "Source.cpp")
+  
+D:\NotepadCpp\Notepad_CPP\Notepad_CPP\MyForm.h(10,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
+  (компиляция исходного файла "Source.cpp")
+  
+  Создание кода...
+  MyForm.obj : обнаружен модуль MSIL; для MSIL последовательная компоновка отключена; выполняется полная компоновка
+  Notepad_CPP.vcxproj -> D:\NotepadCpp\Notepad_CPP\x64\Debug\Notepad_CPP.exe
