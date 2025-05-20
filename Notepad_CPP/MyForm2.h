@@ -217,18 +217,26 @@ namespace NotepadCPP {
 			this->Name = L"MyForm2";
 			this->Text = L"Replace";
 			this->Load += gcnew System::EventHandler(this, &MyForm2::MyForm2_Load);
+			this->FormClosing += gcnew System::Windows::Forms::FormClosingEventHandler(this, &MyForm2::MyForm2_FormClosing);
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
 		}
 
 #pragma endregion
+
+	private: void ResetTextHighlighting()
+	{
+		richTextBoxToSearch->SelectAll();
+		richTextBoxToSearch->SelectionBackColor = originalBackColor;
+		richTextBoxToSearch->DeselectAll();
+	}
 	//exit
 	private: System::Void MyForm2_FormClosing(System::Object^ sender, System::Windows::Forms::FormClosingEventArgs^ e)
 	{
-		HelperReplace helperReplace;
-		helperReplace.ResetTextHighlighting(richTextBoxToSearch, originalBackColor);
+		ResetTextHighlighting();
 	}
+
 
 	private: System::Void label1_Click(System::Object^ sender, System::EventArgs^ e) {
 	}

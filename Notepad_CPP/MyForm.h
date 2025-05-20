@@ -4,10 +4,10 @@
 #include <Windows.h>
 #include <WindowsX.h>
 
-#include "MyForm1.h";
-#include "MyForm2.h";
-#include "MyForm3.h";
-#include "PrintHelper.cpp";
+#include "MyForm1.h"
+#include "MyForm2.h"
+#include "MyForm3.h"
+#include "PrintHelper.cpp"
 #include "helper.h"
 
 namespace NotepadCPP {
@@ -772,7 +772,7 @@ namespace NotepadCPP {
 		bool hasUnsavedChanges = richTextBox1->Modified ||
 			(richTextBox1->Text->Length > 0 && nameFile->Text == "No File");
 
-		if (hasUnsavedChanges)
+		if (hasUnsavedChanges && checkAutoSave == false)
 		{
 			System::Windows::Forms::DialogResult result = MessageBox::Show(
 				"Do you want to save changes before exiting?",
