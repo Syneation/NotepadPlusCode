@@ -3,8 +3,9 @@
 #include <tchar.h>
 #include <Windows.h>
 #include <WindowsX.h>
+#include <vcclr.h>
 
-#include "MyForm1.h"
+#include "MyForm1.h"	
 #include "MyForm2.h"
 #include "MyForm3.h"
 #include "PrintHelper.cpp"
@@ -19,6 +20,8 @@ namespace NotepadCPP {
 	using namespace System::Collections;
 	using namespace System::ComponentModel;
 	using namespace System::Windows::Forms;
+	using namespace System::Runtime::Serialization;
+	using namespace System::Runtime::InteropServices;
 	using namespace System::Runtime::Serialization::Formatters::Binary;
 
 	/// <summary>
@@ -27,10 +30,19 @@ namespace NotepadCPP {
 	public ref class MyForm : public System::Windows::Forms::Form
 	{
 
+		//for scrollBox
+	private:
+
+		System::Windows::Forms::HScrollBar^ hScrollBar1;
+
+		[DllImport("user32.dll", CharSet = CharSet::Auto)]
+		static int SendMessage(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
+
 	private:
 		System::Windows::Forms::Timer^ typingTimer;
-	private: System::Windows::Forms::ToolStripMenuItem^ colorBGToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripButton^ toolStripButton2;
+		System::Windows::Forms::ToolStripMenuItem^ colorBGToolStripMenuItem;
+		System::Windows::Forms::ToolStripButton^ toolStripButton2;
+		System::Drawing::Color savedBackColor;
 		   bool checkAutoSave;
 
 	public:
@@ -38,6 +50,9 @@ namespace NotepadCPP {
 		MyForm(void)
 		{
 			InitializeComponent();
+
+			richTextBox1->WordWrap = false;
+			richTextBox1->ScrollBars = RichTextBoxScrollBars::Both;
 
 			// Set up keyboard event handler
 			this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MyForm::MyForm_KeyDown);
@@ -218,6 +233,7 @@ namespace NotepadCPP {
 			this->DirectorySearcher = (gcnew System::DirectoryServices::DirectorySearcher());
 			this->fontDialog1 = (gcnew System::Windows::Forms::FontDialog());
 			this->colorDialog1 = (gcnew System::Windows::Forms::ColorDialog());
+			this->hScrollBar1 = (gcnew System::Windows::Forms::HScrollBar());
 			this->menuStrip1->SuspendLayout();
 			this->toolStrip1->SuspendLayout();
 			this->SuspendLayout();
@@ -236,6 +252,9 @@ namespace NotepadCPP {
 			this->richTextBox1->Size = System::Drawing::Size(1052, 419);
 			this->richTextBox1->TabIndex = 1;
 			this->richTextBox1->Text = L"";
+			this->richTextBox1->WordWrap = false;
+			this->richTextBox1->ScrollBars = RichTextBoxScrollBars::None;
+			this->richTextBox1->ScrollBars = RichTextBoxScrollBars::Horizontal;
 			this->richTextBox1->TextChanged += gcnew System::EventHandler(this, &MyForm::richTextBox1_TextChanged);
 			// 
 			// menuStrip1
@@ -317,62 +336,62 @@ namespace NotepadCPP {
 			// cancelToolStripMenuItem
 			// 
 			this->cancelToolStripMenuItem->Name = L"cancelToolStripMenuItem";
-			this->cancelToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->cancelToolStripMenuItem->Size = System::Drawing::Size(127, 22);
 			this->cancelToolStripMenuItem->Text = L"Cancel";
 			this->cancelToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::cancelToolStripMenuItem_Click);
 			// 
 			// cutToolStripMenuItem
 			// 
 			this->cutToolStripMenuItem->Name = L"cutToolStripMenuItem";
-			this->cutToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->cutToolStripMenuItem->Size = System::Drawing::Size(127, 22);
 			this->cutToolStripMenuItem->Text = L"Cut";
 			this->cutToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::cutToolStripMenuItem_Click);
 			// 
 			// copyToolStripMenuItem
 			// 
 			this->copyToolStripMenuItem->Name = L"copyToolStripMenuItem";
-			this->copyToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->copyToolStripMenuItem->Size = System::Drawing::Size(127, 22);
 			this->copyToolStripMenuItem->Text = L"Copy";
 			this->copyToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::copyToolStripMenuItem_Click);
 			// 
 			// pasteToolStripMenuItem
 			// 
 			this->pasteToolStripMenuItem->Name = L"pasteToolStripMenuItem";
-			this->pasteToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->pasteToolStripMenuItem->Size = System::Drawing::Size(127, 22);
 			this->pasteToolStripMenuItem->Text = L"Paste";
 			this->pasteToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::pasteToolStripMenuItem_Click);
 			// 
 			// deleteToolStripMenuItem
 			// 
 			this->deleteToolStripMenuItem->Name = L"deleteToolStripMenuItem";
-			this->deleteToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->deleteToolStripMenuItem->Size = System::Drawing::Size(127, 22);
 			this->deleteToolStripMenuItem->Text = L"Delete";
 			// 
 			// deleteAllToolStripMenuItem
 			// 
 			this->deleteAllToolStripMenuItem->Name = L"deleteAllToolStripMenuItem";
-			this->deleteAllToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->deleteAllToolStripMenuItem->Size = System::Drawing::Size(127, 22);
 			this->deleteAllToolStripMenuItem->Text = L"Delete All";
 			this->deleteAllToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::deleteAllToolStripMenuItem_Click);
 			// 
 			// findToolStripMenuItem
 			// 
 			this->findToolStripMenuItem->Name = L"findToolStripMenuItem";
-			this->findToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->findToolStripMenuItem->Size = System::Drawing::Size(127, 22);
 			this->findToolStripMenuItem->Text = L"Find...";
 			this->findToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::findToolStripMenuItem_Click);
 			// 
 			// replaceToolStripMenuItem
 			// 
 			this->replaceToolStripMenuItem->Name = L"replaceToolStripMenuItem";
-			this->replaceToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->replaceToolStripMenuItem->Size = System::Drawing::Size(127, 22);
 			this->replaceToolStripMenuItem->Text = L"Replace...";
 			this->replaceToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::replaceToolStripMenuItem_Click_1);
 			// 
 			// selectAllToolStripMenuItem
 			// 
 			this->selectAllToolStripMenuItem->Name = L"selectAllToolStripMenuItem";
-			this->selectAllToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->selectAllToolStripMenuItem->Size = System::Drawing::Size(127, 22);
 			this->selectAllToolStripMenuItem->Text = L"Select All";
 			this->selectAllToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::selectAllToolStripMenuItem_Click);
 			// 
@@ -383,7 +402,7 @@ namespace NotepadCPP {
 					this->trademarkToolStripMenuItem
 			});
 			this->dateAndTimeToolStripMenuItem->Name = L"dateAndTimeToolStripMenuItem";
-			this->dateAndTimeToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->dateAndTimeToolStripMenuItem->Size = System::Drawing::Size(127, 22);
 			this->dateAndTimeToolStripMenuItem->Text = L"Icon";
 			// 
 			// copyrightToolStripMenuItem
@@ -407,7 +426,7 @@ namespace NotepadCPP {
 					this->offToolStripMenuItem
 			});
 			this->dateTimeToolStripMenuItem->Name = L"dateTimeToolStripMenuItem";
-			this->dateTimeToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->dateTimeToolStripMenuItem->Size = System::Drawing::Size(127, 22);
 			this->dateTimeToolStripMenuItem->Text = L"autosave";
 			// 
 			// onToolStripMenuItem
@@ -427,14 +446,14 @@ namespace NotepadCPP {
 			// dateTimeToolStripMenuItem1
 			// 
 			this->dateTimeToolStripMenuItem1->Name = L"dateTimeToolStripMenuItem1";
-			this->dateTimeToolStripMenuItem1->Size = System::Drawing::Size(180, 22);
+			this->dateTimeToolStripMenuItem1->Size = System::Drawing::Size(127, 22);
 			this->dateTimeToolStripMenuItem1->Text = L"Date Time";
 			this->dateTimeToolStripMenuItem1->Click += gcnew System::EventHandler(this, &MyForm::dateTimeToolStripMenuItem1_Click);
 			// 
 			// colorBGToolStripMenuItem
 			// 
 			this->colorBGToolStripMenuItem->Name = L"colorBGToolStripMenuItem";
-			this->colorBGToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->colorBGToolStripMenuItem->Size = System::Drawing::Size(127, 22);
 			this->colorBGToolStripMenuItem->Text = L"Color BG";
 			this->colorBGToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::colorBGToolStripMenuItem_Click);
 			// 
@@ -702,6 +721,18 @@ namespace NotepadCPP {
 			this->DirectorySearcher->ServerPageTimeLimit = System::TimeSpan::Parse(L"-00:00:01");
 			this->DirectorySearcher->ServerTimeLimit = System::TimeSpan::Parse(L"-00:00:01");
 			// 
+			// hScrollBar1
+			// 
+			this->hScrollBar1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>(((System::Windows::Forms::AnchorStyles::Bottom | System::Windows::Forms::AnchorStyles::Left)
+				| System::Windows::Forms::AnchorStyles::Right));
+			this->hScrollBar1->Location = System::Drawing::Point(9, 454);
+			this->hScrollBar1->Height = 17;
+			this->hScrollBar1->Name = L"hScrollBar1";
+			this->hScrollBar1->Size = System::Drawing::Size(1043, 17);
+			this->hScrollBar1->TabIndex = 7;
+			this->hScrollBar1->Scroll += gcnew System::Windows::Forms::ScrollEventHandler(this, &MyForm::ScrollText);
+
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -709,6 +740,7 @@ namespace NotepadCPP {
 			this->AutoScroll = true;
 			this->AutoValidate = System::Windows::Forms::AutoValidate::Disable;
 			this->ClientSize = System::Drawing::Size(1052, 496);
+			this->Controls->Add(this->hScrollBar1);
 			this->Controls->Add(this->notifications);
 			this->Controls->Add(this->nameFile);
 			this->Controls->Add(this->infoText);
@@ -735,8 +767,11 @@ namespace NotepadCPP {
 
 #pragma endregion
 
-	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) {
+	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) 
+	{
+		LoadSettings();
 	}
+
 	private: System::Void replaceToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
 	}
 
@@ -764,6 +799,8 @@ namespace NotepadCPP {
 	//exit
 	private: System::Void MyForm_FormClosing(System::Object^ sender, System::Windows::Forms::FormClosingEventArgs^ e)
 	{
+
+		SaveSettings();
 
 		// Debug check - verify this handler is being called
 		System::Diagnostics::Debug::WriteLine("FormClosing event triggered");
@@ -868,62 +905,136 @@ namespace NotepadCPP {
 
 	}
 
+		   //Save Settings and Load
+	private: void SaveSettings() {
+		try {
+			String^ settingsFile = "notepad_settings.cfg";
+			StreamWriter^ sw = gcnew StreamWriter(settingsFile);
+
+			// Saving the background color
+			sw->WriteLine("BackColor=" + savedBackColor.ToArgb().ToString());
+
+			// Saving the current font
+			sw->WriteLine("FontName=" + richTextBox1->Font->Name);
+			sw->WriteLine("FontSize=" + richTextBox1->Font->Size.ToString());
+			sw->WriteLine("FontStyle=" + ((int)richTextBox1->Font->Style).ToString());
+
+			sw->Close();
+		}
+		catch (...) {
+			// Error when saving settings - ignore
+		}
+	}
+
+	private: void LoadSettings() {
+		try {
+			String^ settingsFile = "notepad_settings.cfg";
+			if (File::Exists(settingsFile)) {
+				StreamReader^ sr = gcnew StreamReader(settingsFile);
+				String^ line;
+
+				while ((line = sr->ReadLine()) != nullptr) {
+					if (line->StartsWith("BackColor=")) {
+						int argb = Int32::Parse(line->Substring(10));
+						savedBackColor = Color::FromArgb(argb);
+						richTextBox1->BackColor = savedBackColor;
+					}
+					else if (line->StartsWith("FontName=")) {
+						String^ fontName = line->Substring(9);
+						float fontSize = 12.0f; 
+						FontStyle fontStyle = FontStyle::Regular;
+
+						// We read the following line for the font size
+						line = sr->ReadLine();
+						if (line->StartsWith("FontSize=")) {
+							fontSize = Single::Parse(line->Substring(9));
+						}
+
+						// We read the following line for the font style
+						line = sr->ReadLine();
+						if (line->StartsWith("FontStyle=")) {
+							fontStyle = (FontStyle)Int32::Parse(line->Substring(10));
+						}
+
+						richTextBox1->Font = gcnew System::Drawing::Font(fontName, fontSize, fontStyle);
+					}
+				}
+
+				sr->Close();
+			}
+		}
+		catch (...) {
+			// Error loading the settings - we use the default values
+		}
+	}
+
 		   //Open File txt
-		   //icon
 	private: System::Void openToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e)
 	{
 		try {
-			Stream^ stream;
+			openFileDialog1->Filter = "Text Files (*.txt)|*.txt|Formatted Text (*.rtf)|*.rtf|All files (*.*)|*.*";
 
-			openFileDialog1->Filter = "Текстовые файлы (*.txt)|*.txt|все файлы (*.*)|*.*";
-
-			if (openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK)
-			{
-				//changes the label name to the file name
+			if (openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
 				nameFile->Text = openFileDialog1->FileName;
 
-				if ((stream = openFileDialog1->OpenFile()) != nullptr)
-				{
-					stream->Close();
-					richTextBox1->Text = System::IO::File::ReadAllText(openFileDialog1->FileName);
-					notifications->Text = "the file was opened successfully";
+				if (openFileDialog1->FileName->EndsWith(".rtf")) {
+					// Загружаем RTF с сохранением форматирования
+					richTextBox1->LoadFile(openFileDialog1->FileName, RichTextBoxStreamType::RichText);
 				}
+				else {
+					// Загружаем как обычный текст
+					richTextBox1->LoadFile(openFileDialog1->FileName, RichTextBoxStreamType::PlainText);
+				}
+
+				notifications->Text = "The file has been opened successfully";
 			}
 		}
-		catch (...)
-		{
+		catch (Exception^ ex) {
 			notifications->Text = "Error when opening a file";
-			MessageBox::Show("Error when opening a file",
+			MessageBox::Show("Error when opening a file: " + ex->Message,
 				"Error",
 				MessageBoxButtons::OK,
 				MessageBoxIcon::Error);
-
 		}
 	}
+		   //icon
 	private: System::Void openFileIcon_Click(System::Object^ sender, System::EventArgs^ e)
 	{
 		try {
 			Stream^ stream;
+			openFileDialog1->Filter = "Text Files (*.txt)|*.txt|Formatted Text (*.rtf)|*.rtf|All files (*.*)|*.*";
 
-			openFileDialog1->Filter = "Текстовые файлы (*.txt)|*.txt|все файлы (*.*)|*.*";
-
-			if (openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK)
-			{
-				//changes the label name to the file name
+			if (openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
 				nameFile->Text = openFileDialog1->FileName;
 
-				if ((stream = openFileDialog1->OpenFile()) != nullptr)
+				if (System::IO::Path::GetExtension(openFileDialog1->FileName)->ToLower() == ".rtf")
 				{
-					stream->Close();
-					richTextBox1->Text = System::IO::File::ReadAllText(openFileDialog1->FileName);
-					notifications->Text = "the file was opened successfully";
+					nameFile->Text = openFileDialog1->FileName;
+
+					richTextBox1->LoadFile(openFileDialog1->FileName, RichTextBoxStreamType::RichText);
 				}
+				
+				
+				else
+				{
+					//changes the label name to the file name
+					nameFile->Text = openFileDialog1->FileName;
+
+					if ((stream = openFileDialog1->OpenFile()) != nullptr)
+					{
+						stream->Close();
+						richTextBox1->Text = System::IO::File::ReadAllText(openFileDialog1->FileName);
+						notifications->Text = "the file was opened successfully";
+					}
+				}
+				
+
+				notifications->Text = "The file has been opened successfully";
 			}
 		}
-		catch (...)
-		{
+		catch (Exception^ ex) {
 			notifications->Text = "Error when opening a file";
-			MessageBox::Show("Error when opening a file",
+			MessageBox::Show("Error when opening a file: " + ex->Message,
 				"Error",
 				MessageBoxButtons::OK,
 				MessageBoxIcon::Error);
@@ -1175,50 +1286,42 @@ namespace NotepadCPP {
 		   //save file
 	private: System::Void saveFile_Click(System::Object^ sender, System::EventArgs^ e)
 	{
-		if (nameFile->Text != "No File")
-		{
-			try {
-				StreamWriter^ streamWriter = gcnew StreamWriter(nameFile->Text, false);
-				streamWriter->Write(richTextBox1->Text);
-				streamWriter->Close();
+		if (nameFile->Text != "No File") {
+			try 
+			{
+				// Save as RTF to preserve formatting
+				richTextBox1->SaveFile(nameFile->Text, RichTextBoxStreamType::RichText);
 				notifications->Text = "The file was saved successfully";
 			}
-			catch (...) {
+			catch (...) 
+			{
 				notifications->Text = "The file wasn't saved";
 			}
 		}
-		else
-		{
-			notifications->Text = "you can't save because you don't have the file open.";
-			MessageBox::Show("you can't save because you don't have the file open:",
-				"Error",
-				MessageBoxButtons::OK,
-				MessageBoxIcon::Error);
+		else {
+			saveFileAs_Click(sender, e); // If the file is new, we call "Save as"
 		}
 	}
 
 		   //icon
 	private: System::Void toolStripButton3_Click(System::Object^ sender, System::EventArgs^ e)
 	{
-		if (nameFile->Text != "No File")
+		if (nameFile->Text != "No File") 
 		{
-			try {
-				StreamWriter^ streamWriter = gcnew StreamWriter(nameFile->Text, false);
-				streamWriter->Write(richTextBox1->Text);
-				streamWriter->Close();
+			try
+			{
+				// Сохраняем как RTF для сохранения форматирования
+				richTextBox1->SaveFile(nameFile->Text, RichTextBoxStreamType::RichText);
 				notifications->Text = "The file was saved successfully";
 			}
-			catch (...) {
-				notifications->Text = "The file was not saved";
+			catch (...)
+			{
+				notifications->Text = "The file wasn't saved";
 			}
 		}
-		else
+		else 
 		{
-			notifications->Text = "you can't save because you don't have the file open.";
-			MessageBox::Show("you can't save because you don't have the file open:",
-				"Error",
-				MessageBoxButtons::OK,
-				MessageBoxIcon::Error);
+			saveFileAs_Click(sender, e); // Если файл новый, вызываем "Сохранить как"
 		}
 	}
 
@@ -1226,26 +1329,56 @@ namespace NotepadCPP {
 	private: System::Void saveFileAs_Click(System::Object^ sender, System::EventArgs^ e)
 	{
 		SaveFileDialog^ saveFileDialog1 = gcnew SaveFileDialog;
-		saveFileDialog1->Filter = "сохранить как txt (*.txt)|*.txt|Все файлы (*.*)|*.*";
+		saveFileDialog1->Filter = "Text Files (*.txt)|*.txt|Formatted Text (*.rtf)|*.rtf|All files (*.*)|*.*";
 		saveFileDialog1->FilterIndex = 1;
 		saveFileDialog1->RestoreDirectory = true;
 
-		if (saveFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK && saveFileDialog1->FileName->Length > 0)
-			IO::File::WriteAllText(saveFileDialog1->FileName, richTextBox1->Text);
+		if (saveFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK) 
+		{
+			try 
+			{
+				if (saveFileDialog1->FilterIndex == 1) {
+					// Сохраняем как RTF
+					richTextBox1->SaveFile(saveFileDialog1->FileName, RichTextBoxStreamType::RichText);
+				}
+				else {
+					// Сохраняем как обычный текст
+					richTextBox1->SaveFile(saveFileDialog1->FileName, RichTextBoxStreamType::PlainText);
+				}
+				nameFile->Text = saveFileDialog1->FileName;
+				notifications->Text = "The file was saved successfully";
+			}
+			catch (Exception^ ex) 
+			{
+				notifications->Text = "Error when saving: " + ex->Message;
+			}
+		}
 	}
 		   //icon
 	private: System::Void toolStripButton4_Click(System::Object^ sender, System::EventArgs^ e)
 	{
 		SaveFileDialog^ saveFileDialog1 = gcnew SaveFileDialog;
-		saveFileDialog1->Filter = "сохранить как txt (*.txt)|*.txt|Все файлы (*.*)|*.*";
+		saveFileDialog1->Filter = "Formatted text (*.rtf)|*.rtf|Text files (*.txt)|*.txt|All files (*.*)|*.*";
 		saveFileDialog1->FilterIndex = 1;
 		saveFileDialog1->RestoreDirectory = true;
 
-		if (saveFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK
-			&& saveFileDialog1->FileName->Length > 0)
+		if (saveFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK)
 		{
-			IO::File::WriteAllText(saveFileDialog1->FileName, richTextBox1->Text);
-			nameFile->Text = saveFileDialog1->FileName;
+			try
+			{
+				if (saveFileDialog1->FilterIndex == 1) 
+					richTextBox1->SaveFile(saveFileDialog1->FileName, RichTextBoxStreamType::RichText);
+				
+				else 
+					richTextBox1->SaveFile(saveFileDialog1->FileName, RichTextBoxStreamType::PlainText);
+				
+				nameFile->Text = saveFileDialog1->FileName;
+				notifications->Text = "The file was saved successfully";
+			}
+			catch (Exception^ ex)
+			{
+				notifications->Text = "Error when saving: " + ex->Message;
+			}
 		}
 	}
 
@@ -1595,10 +1728,10 @@ namespace NotepadCPP {
 	private: System::Void colorBGToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e)
 	{
 		colorDialog1->Color = richTextBox1->BackColor;
-		if (colorDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK)
-		{
+		if (colorDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
 			richTextBox1->BackColor = colorDialog1->Color;
-			notifications->Text = "the background change color was successfully";
+			savedBackColor = colorDialog1->Color; // Сохраняем цвет
+			notifications->Text = "The background color has been changed";
 		}
 	}
 
@@ -1678,5 +1811,21 @@ namespace NotepadCPP {
 
 	}
 
+	//ScrollBar richtextBox
+	private: void ScrollText(Object^ sender, ScrollEventArgs^ e)
+	{
+		SendMessage(richTextBox1->Handle, WM_HSCROLL,
+			(IntPtr)(SB_THUMBPOSITION | (e->NewValue << 16)), IntPtr::Zero);
+	}
+
+	private: System::Void hScrollBar1_Scroll(System::Object^ sender, System::Windows::Forms::ScrollEventArgs^ e) 
+	{
+		int firstVisibleLine = this->richTextBox1->GetLineFromCharIndex(this->richTextBox1->GetCharIndexFromPosition(Point(0, 0)));
+		int offset = (int)((double)e->NewValue / (double)this->hScrollBar1->Maximum * this->richTextBox1->TextLength);
+
+		this->richTextBox1->SelectionStart = offset;
+		this->richTextBox1->SelectionLength = 0;
+		this->richTextBox1->ScrollToCaret();
+	}
 };
 }

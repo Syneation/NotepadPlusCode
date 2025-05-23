@@ -63,4 +63,30 @@ class helperRich
 	
 	}
 
+	//Initialize for scrollbar
+	public: void InitiliazeScrollBar(RichTextBox^ richTextBox1, HScrollBar^ hScrollBar1)
+	{
+		int textWidth = GetTextWidth(richTextBox1);
+
+		// Setting the scroll settings
+		hScrollBar1->Minimum = 0;
+		hScrollBar1->Maximum = 0;
+		hScrollBar1->LargeChange = richTextBox1->ClientSize.Width;
+		hScrollBar1->SmallChange = 20;
+	}
+
+	private: int GetTextWidth(RichTextBox^ richTextBox1)
+	{
+		Graphics^ G = richTextBox1->CreateGraphics();
+
+		// Measuring the width of the entire text
+		SizeF textSize = G->MeasureString(richTextBox1->Text,
+			richTextBox1->Font,
+			Int32::MaxValue,
+			StringFormat::GenericTypographic);
+
+		delete G;
+		return (int)textSize.Width;
+	}
+
 };
