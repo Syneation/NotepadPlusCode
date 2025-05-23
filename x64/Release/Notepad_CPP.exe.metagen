@@ -1,22 +1,39 @@
-[Setup]
-AppName=Notepad+
-AppVersion=1.0
-AppPublisher=Syneation
-DefaultDirName={pf}\NotepadPlus
-DefaultGroupName=NotepadPlus
-OutputDir=Output
-OutputBaseFilename=NotepadPlusSetup
-Compression=lzma
-SolidCompression=yes
-SetupIconFile=D:\NotepadCpp\Notepad_CPP\image\main_icon.ico  ; Добавлено для иконки установщика
-
-[Files]
-Source: "D:\NotepadCpp\Notepad_CPP\x64\Release\NotepadPlus.exe"; DestDir: "{app}"; Flags: ignoreversion
-; Убраны .metagen и .pdb - они обычно не нужны в финальной установке
-; Если они действительно нужны, можно раскомментировать:
-; Source: "D:\NotepadCpp\Notepad_CPP\x64\Release\*.metagen"; DestDir: "{app}"; Flags: ignoreversion
-; Source: "D:\NotepadCpp\Notepad_CPP\x64\Release\*.pdb"; DestDir: "{app}"; Flags: ignoreversion
-
-[Icons]
-Name: "{group}\Notepad+"; Filename: "{app}\NotepadPlus.exe"; IconFilename: "D:\NotepadCpp\Notepad_CPP\image\main_icon.ico"
-Name: "{commondesktop}\Notepad+"; Filename: "{app}\NotepadPlus.exe"; IconFilename: "D:\NotepadCpp\Notepad_CPP\image\main_icon.ico"
+  NotepadCPP.MyForm.resources - Embedded, ContainedInManifestFile, 
+  NotepadCPP.MyForm1.resources - Embedded, ContainedInManifestFile, 
+  NotepadCPP.MyForm2.resources - Embedded, ContainedInManifestFile, 
+  NotepadCPP.MyForm3.resources - Embedded, ContainedInManifestFile, 
+ImageRuntimeVersion: v4.0.30319
+Assembly Notepad_CPP, Version=0.0.*, Culture=Инвариантный язык (Инвариантная страна): 
+	hash=SHA1, flags=PublicKey
+Assembly mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.DirectoryServices, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: 
+	hash=None, flags=None
+Assembly System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: 
+	hash=None, flags=None
+Assembly System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Class NotepadCPP.MyForm1: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.Form
+    Void .ctor(System.Windows.Forms.RichTextBox): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class NotepadCPP.MyForm2: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.Form
+    Void .ctor(System.Windows.Forms.RichTextBox): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class NotepadCPP.MyForm3: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.Form
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class PrintHelper: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(System.Windows.Forms.RichTextBox): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Methods:
+    Print(Label): PrivateScope, Public, HideBySig
+Class NotepadCPP.MyForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.Form
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Methods:
+    OnTypingStopped(Object, EventArgs): PrivateScope, Public, HideBySig
